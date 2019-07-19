@@ -24,7 +24,7 @@ const CONFIG = {
       || process.env.JWT_ENCRYPTION,
     Options: {
       algorithm: 'RS256',
-      expiresIn: ms(process.env.JWT_EXPIRATION) || ms('30d'),
+      expiresIn: process.env.JWT_EXPIRATION || ms('30d'),
       /* issuer: process.env.JWT_ISSUER || 'Web7Online',
       subject: process.env.JWT_SUBJECT || 'matheus@web7online.com',
       audience: process.env.JWT_AUDIENCE || 'http://web7online.com', */
