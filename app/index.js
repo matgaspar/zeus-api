@@ -114,6 +114,6 @@ process.on('unhandledRejection', (error) => {
   console.error('Uncaught Error', pe(error));
 });
 
-server.listen(3000, () => {
+server.listen(80, () => {
   console.log('Servidor em execução na porta :3000');
 });
