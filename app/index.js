@@ -114,6 +114,8 @@ process.on('unhandledRejection', (error) => {
   console.error('Uncaught Error', pe(error));
 });
 
-server.listen(CONFIG.port, () => {
-  console.log('Servidor em execução na porta :', CONFIG.port);
+const port = CONFIG.port || 3000;
+
+server.listen(port, () => {
+  console.log('Servidor em execução na porta :', port);
 });
