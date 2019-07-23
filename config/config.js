@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const CONFIG = {
   app: process.env.APP || 'production',
-  port: process.env.PORT || '7070',
+  port: process.env.PORT || '7000',
   DB: {
     timezone: process.env.DB_TIMEZONE || 'Etc/GMT-3' || 'America/Sao_Paulo',
     dialect: process.env.DB_DIALECT || 'mariadb',
