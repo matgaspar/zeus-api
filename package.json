@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon app/index.js",
-    "pm2": "pm2 start app/index.js --name zeus --watch"
+    "pm2": "pm2 start app/index.js -i 0 --name zeus --watch"
   },
   "dependencies": {
     "await-to-js": "^2.1.1",
