@@ -11,6 +11,7 @@
     "pm2": "pm2 start app/index.js --name zeus --watch"
   },
   "dependencies": {
+    "@sentry/node": "5.5.0",
     "await-to-js": "^2.1.1",
     "bcrypt-promise": "^2.0.0",
     "bcryptjs": "^2.4.3",

@@ -5,8 +5,13 @@ const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const logger = require('morgan');
 const pe = require('parse-error');
+const Sentry = require('@sentry/node');
 
 const app = express();
+
+Sentry.init({ dsn: 'https://9781f0ac332444638387c873badfc473@sentry.io/1511962' });
+
+app.use(Sentry.Handlers.requestHandler());
 
 const server = require('http').Server(app);
 const io = require('socket.io');
@@ -16,6 +21,8 @@ const { ReE, ReS, to } = require('./services/util.service');
 const CONFIG = require('../config/config');
 const db = require('./models');
 const PessoaController = require('./controllers/PessoaController');
+
+// The request handler must be the first middleware on the app
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -85,29 +92,35 @@ app.use(
   require('./routes/private.routes'),
 );
 
-/* app.use('/', (req, res) => {
-  res.statusCode = 200; // send the appropriate status code
-  res.json({ status: 'success', message: 'Parcel Pending API', data: {} });
-}); */
-
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.message = 'Not Found';
-  err.status = 404;
-  next(err);
-});
+// app.use((req, res, next) => {
+//   const err = new Error('Not Found');
+//   err.message = 'Not Found';
+//   err.status = 404;
+//   next(err);
+// });
 
 // error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use((err, req, res, next) => {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  /* res.status(err.status || 500);
-  res.json(TE(err.message)); */
-  ReE(res, err, err.status || 500);
+//   // render the error page
+//   /* res.status(err.status || 500);
+//   res.json(TE(err.message)); */
+//   ReE(res, err, err.status || 500);
+// });
+
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
+
+// Optional fallthrough error handler
+app.use((err, req, res, next) => {
+  // The error id is attached to `res.sentry` to be returned
+  // and optionally displayed to the user for support.
+  res.statusCode = 500;
+  res.end(`${res.sentry}\n`);
 });
 
 process.on('unhandledRejection', (error) => {
