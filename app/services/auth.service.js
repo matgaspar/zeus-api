@@ -49,7 +49,7 @@ const authentication = async (reqBody) => {
     auth_info.method = 'email';
 
     [err, pessoa] = await to(PessoaController.login(email));
-    // console.log(err, pessoa, email);
+    console.log(err, pessoa, email);
     if (err) TE(err.message);
   } else {
     TE('A valid email was not entered');
