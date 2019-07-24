@@ -9,20 +9,20 @@ const Sentry = require('@sentry/node');
 
 const app = express();
 
-Sentry.init({ dsn: 'https://9781f0ac332444638387c873badfc473@sentry.io/1511962' });
-
-app.use(Sentry.Handlers.requestHandler());
 
 const server = require('http').Server(app);
 const io = require('socket.io');
+const CONFIG = require('../config/config');
 const authService = require('./services/auth.service');
 const { ReE, ReS, to } = require('./services/util.service');
 
-const CONFIG = require('../config/config');
 const db = require('./models');
 const PessoaController = require('./controllers/PessoaController');
 
 // The request handler must be the first middleware on the app
+Sentry.init(CONFIG.Sentry);
+
+app.use(Sentry.Handlers.requestHandler());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -101,7 +101,6 @@ app.use(
 //   // set locals, only providing error in development
 //   res.locals.message = err.message;
 //   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
 //   // render the error page
 //   /* res.status(err.status || 500);
 //   res.json(TE(err.message)); */
@@ -112,11 +111,11 @@ app.use(
 app.use(Sentry.Handlers.errorHandler());
 
 // Optional fallthrough error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   res.statusCode = 500;
-  res.end(`${res.sentry}\n`);
+  res.end(res.sentry + "\n");
 });
 
 process.on('unhandledRejection', (error) => {

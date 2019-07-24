@@ -6,10 +6,13 @@ require('dotenv').config();
 const CONFIG = {
   app: process.env.APP || 'production',
   port: process.env.PORT || '7000',
+  Sentry: {
+    dsn: 'https://9781f0ac332444638387c873badfc473@sentry.io/1511962',
+  },
   DB: {
     timezone: process.env.DB_TIMEZONE || 'Etc/GMT-3' || 'America/Sao_Paulo',
     dialect: process.env.DB_DIALECT || 'mariadb',
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'web7online.com',
     name: process.env.DB_NAME || 'webonl_api',
     user: process.env.DB_USER || 'webonl',
     port: process.env.DB_PORT || '3306',
