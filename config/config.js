@@ -9,7 +9,7 @@ const CONFIG = {
   DB: {
     timezone: process.env.DB_TIMEZONE || 'Etc/GMT-3' || 'America/Sao_Paulo',
     dialect: process.env.DB_DIALECT || 'mariadb',
-    host: process.env.DB_HOST || 'web7online.com',
+    host: process.env.DB_HOST || 'localhost',
     name: process.env.DB_NAME || 'webonl_api',
     user: process.env.DB_USER || 'webonl',
     port: process.env.DB_PORT || '3306',
