@@ -30,6 +30,12 @@ const CONFIG = {
       audience: process.env.JWT_AUDIENCE || 'http://web7online.com', */
     },
   },
+  Pagination: {
+    default: {
+      page: 1,
+      paginate: 25,
+    },
+  },
 };
 
 module.exports = CONFIG;

@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const sequelizePaginate = require('sequelize-paginate');
 const { TE, to } = require('../services/util.service');
 const CONFIG = require('../../config/config');
-const { Empresa } = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
   const Pessoa = sequelize.define(
@@ -69,6 +69,8 @@ module.exports = (sequelize, DataTypes) => {
     const payload = { id: this.id };
     return jwt.sign(payload, secretOrKey, Options);
   };
+
+  sequelizePaginate.paginate(Pessoa);
 
   return Pessoa;
 };

@@ -25,5 +25,6 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.Pessoa.belongsTo(db.Empresa, { foreignKey: 'empresa', constraints: false });
+db.Cidade.belongsTo(db.Estado, { foreignKey: 'estado', constraints: false });
 
 module.exports = db;

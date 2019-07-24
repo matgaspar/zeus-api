@@ -1,3 +1,5 @@
+const sequelizePaginate = require('sequelize-paginate');
+
 module.exports = (sequelize, DataTypes) => {
   const Empresa = sequelize.define(
     'Empresa',
@@ -24,5 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   Empresa.associate = function (models) {
     // associations can be defined here
   };
+  sequelizePaginate.paginate(Empresa);
   return Empresa;
 };

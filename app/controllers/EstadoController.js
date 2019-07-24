@@ -1,10 +1,22 @@
 const { Estado } = require('../models');
+const { ReS, ReE, to } = require('../services/util.service');
+const { Pagination } = require('../../config/config');
 
 module.exports = {
   async index(req, res) {
-    const estados = await Estado.findAll();
+    try {
+      const { body } = req;
+      const page = parseInt(body.page, 0) || Pagination.default.page;
+      const paginate = parseInt(body.paginate, 0) || Pagination.default.paginate;
+      const [err, estados] = await to(Estado.paginate(page, paginate));
+      // if (err) return ReE(res, err, 422);
 
-    return res.json(estados);
+      const { docs, ...totals } = estados;
+
+      return ReS(res, { data: docs, ...totals });
+    } catch (err) {
+      return ReE(res, err, 422);
+    }
   },
 
   async create(req, res) {

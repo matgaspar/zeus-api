@@ -45,9 +45,7 @@ const jwtFromRequest = passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken();
 const secretOrKey = CONFIG.JWT.secretPublic;
 
 const strategy = new passportJWT.Strategy({ jwtFromRequest, secretOrKey }, async (token, next) => {
-  let err;
-  let pessoa;
-  [err, pessoa] = await to(PessoaController.pessoaById(token.id));
+  const [err, pessoa] = await to(PessoaController.pessoaById(token.id));
 
   console.log('token received', token);
 
@@ -76,10 +74,8 @@ app.get('/', (req, res) => res.send(
 
 app.post('/login', async (req, res) => {
   const { body } = req;
-  let err;
-  let pessoa;
 
-  [err, pessoa] = await to(authService.authentication(body));
+  const [err, pessoa] = await to(authService.authentication(body));
   if (err) return ReE(res, err, 422);
 
   return ReS(res, { token: pessoa.getJWT(), pessoa });
@@ -116,7 +112,7 @@ app.use(
 app.use(Sentry.Handlers.errorHandler());
 
 // Optional fallthrough error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   res.statusCode = 500;
