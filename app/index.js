@@ -116,7 +116,7 @@ app.use((err, req, res) => {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   res.statusCode = 500;
-  res.json(`${res.sentry}\n`);
+  res.end(`${res.sentry}\n`);
 });
 
 process.on('unhandledRejection', (error) => {
