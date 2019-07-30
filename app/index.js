@@ -46,10 +46,6 @@ const secretOrKey = CONFIG.JWT.secretPublic;
 
 const strategy = new passportJWT.Strategy({ jwtFromRequest, secretOrKey }, async (token, next) => {
   const [err, pessoa] = await to(PessoaController.pessoaById(token.id));
-
-  console.log('token received', token);
-
-  // const pessoa = await PessoaController.pessoaById(token.id);
   if (err) return next(err, false);
 
   if (pessoa) {
